@@ -7,13 +7,23 @@ class ChargesController < ApplicationController
   def create
    @amount = (@product.price * 100).to_i
 
-   customer = StripeTool.create_customer(email: current_user.email,
+   if current_user.stripe_id == nil
+   customer = StripeTool.create_customer(email: params[:stripeEmail],
    stripe_token: params[:stripeToken])
+
+   current_user.stripe_id = customer.id
+   current_user.save()
+
 
    charge = StripeTool.create_charge(customer_id: customer.id,
    amount: @amount,
    description: 'Rails Stripe customer')
 
+  else
+    charge = StripeTool.create_charge(customer_id: current_user.stripe_id,
+    amount: @amount,
+    description: 'Rails Stripe customer')
+  end
  rescue Stripe::CardError => e
    flash[:error] = e.message
    redirect_to new_charge_path

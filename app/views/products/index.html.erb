@@ -9,7 +9,7 @@
          <%= image_tag(product.image_url, class: "card-img-top mx-auto")  %>
           <div class="card-body">
             <h4 class="card-title"><%= product.name %></h4>
-            <h5><%= product.price %></h5>
+            <h5>$<%= product.price.to_i %></h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <%= link_to 'View', product, class: "btn btn-primary" %>
             <% if product.user == current_user %>
