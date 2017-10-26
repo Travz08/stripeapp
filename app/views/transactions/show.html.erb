@@ -1,7 +1,11 @@
 <h1>Transactions#show</h1>
 <p>Find me in app/views/transactions/show.html.erb</p>
-<% @transaction.each do |transaction| %>
+<% @products.each do |product| %>
 
-<%= transaction.product_id %>
+<%= product.name %>
+</br>
+<%= product.price %>
+</br>
+
 
 <% end %>
