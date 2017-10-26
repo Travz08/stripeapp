@@ -3,6 +3,12 @@ class TransactionsController < ApplicationController
 
   def show
 
+    puts @transaction
+    @transaction.each do |transaction|
+
+      # puts transaction
+    @products = Product.where(params[transaction.product_id])
+    end
   end
 
 

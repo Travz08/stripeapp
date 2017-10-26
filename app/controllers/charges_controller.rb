@@ -19,7 +19,7 @@ class ChargesController < ApplicationController
    amount: @amount,
    description: 'Rails Stripe customer')
 
-   @transaction = Transaction.create(user_id: current_user.id, charge_id: charge.id, item_id: @product.id, amount: @amount)
+   @transaction = Transaction.create(user_id: current_user.id, charge_id: charge.id, charge_id: @product.id, amount: @amount)
    @transaction.user = current_user
    @transaction.save
 
