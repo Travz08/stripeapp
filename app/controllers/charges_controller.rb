@@ -19,10 +19,18 @@ class ChargesController < ApplicationController
    amount: @amount,
    description: 'Rails Stripe customer')
 
+   @transaction = Transaction.create(user_id: current_user.id, charge_id: charge.id, item_id: @product.id, amount: @amount)
+   @transaction.user = current_user
+   @transaction.save
+
   else
     charge = StripeTool.create_charge(customer_id: current_user.stripe_id,
     amount: @amount,
     description: 'Rails Stripe customer')
+
+    @transaction = Transaction.create(user_id: current_user.id, product_id: @product.id, charge_id: charge.id, amount: @amount)
+    @transaction.user = current_user
+    @transaction.save
   end
  rescue Stripe::CardError => e
    flash[:error] = e.message
@@ -33,5 +41,9 @@ class ChargesController < ApplicationController
 
  def set_product
    @product = Product.find(params[:product_id])
+ end
+
+ def set_transaction
+   @transaction = Transaction.find(params[:id])
  end
 end
